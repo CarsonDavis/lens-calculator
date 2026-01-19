@@ -123,3 +123,20 @@
 
 ## Message 25
 > site should be dark mode only
+
+# Info Panel Content
+
+## Message 26
+> read @README.md then @design_docs/calculations.md then @design_docs/info-content.md then finally @research/lens-equations/depth_of_field.md and @research/lens-equations/circle_of_confusion.md
+
+## Message 27
+> ok, remember, we want clean simple, and VERY understandable. take a stab at populating info-content
+
+## Message 28
+> why do they diverge only when you override focal length? substatiate your claimed based on @research/lens-equations/README.md
+
+## Message 29
+> i need to understand better how their coupling relates to using one or the other for an equivalence calculation
+
+## Message 30
+> yes. is it possible to make this more clear in the dof vs blur disc info content
