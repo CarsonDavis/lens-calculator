@@ -94,6 +94,42 @@
 
 ---
 
+## Project Structure
+
+```
+src/
+├── calc/                   # Pure TS calculation engine (no React)
+│   ├── equivalence.ts      # Focal/aperture equivalence
+│   ├── dof.ts              # Depth of field
+│   ├── blur.ts             # Blur disc
+│   ├── format.ts           # Format utilities (diagonal, CoC, etc.)
+│   ├── units.ts            # mm/inch conversions
+│   ├── types.ts            # Shared types
+│   └── index.ts            # Public exports
+│
+├── components/             # React components
+│   ├── SourcePanel.tsx
+│   ├── TargetPanel.tsx
+│   ├── SensorOverlay.tsx   # SVG visualization
+│   ├── OptionsPanel.tsx
+│   ├── InfoPanel.tsx
+│   └── ...
+│
+├── atoms/                  # Jotai state
+│   ├── source.ts
+│   ├── target.ts
+│   ├── options.ts
+│   └── derived.ts          # Calculated values
+│
+├── data/
+│   └── formats.json        # Format presets
+│
+├── App.tsx
+└── main.tsx
+```
+
+---
+
 ## Tech Stack
 
 | Category | Technology |

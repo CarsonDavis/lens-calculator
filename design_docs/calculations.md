@@ -100,6 +100,12 @@ Note: DOF and blur disc only stay coupled when FOV matches. When focal length is
 
 **When:** Subject distance provided
 
+**Important:** Subject distance on target side is scaled to maintain same framing:
+```
+s_target = s_source × (f_target / f_source)
+```
+This reflects the real-world scenario: longer lens = step back to frame subject the same way.
+
 **Hyperfocal Distance:**
 ```
 H = f² / (N × CoC) + f
