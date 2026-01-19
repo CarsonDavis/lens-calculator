@@ -112,3 +112,6 @@
 
 ## Message 23
 > user adds a name, and we store it (for custom formats)
+
+## Message 23
+> ok, let's make a simple readme at the root which talks about the project intent and goals. don't worry about technical details, you can point to the design docs   
