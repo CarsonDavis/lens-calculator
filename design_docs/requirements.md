@@ -86,6 +86,7 @@ Plain-english explanations of:
 - Target focal/aperture auto-calculated by default
 - User can type a value to override → subtle font style change (e.g., italic or different weight) indicates manual override
 - Deleting the value reverts to auto-calculated
+- Only one field (focal or aperture) can be overridden at a time — entering a value clears the other override
 - No explicit toggle needed
 
 ### Conditional Display
