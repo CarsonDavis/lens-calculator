@@ -147,3 +147,16 @@ src/
 ### Not Using
 - TanStack Query (no server state)
 - React Router (single page)
+
+---
+
+## Visual Design
+
+See **design-system.md** for complete visual language.
+
+Key points:
+- Dark mode only
+- Neutral palette, accent color used sparingly
+- System fonts, 14px base
+- 4px spacing scale
+- Clean, minimal, no heavy shadows or decorations

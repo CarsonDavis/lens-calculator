@@ -114,4 +114,12 @@
 > user adds a name, and we store it (for custom formats)
 
 ## Message 23
-> ok, let's make a simple readme at the root which talks about the project intent and goals. don't worry about technical details, you can point to the design docs   
+> ok, let's make a simple readme at the root which talks about the project intent and goals. don't worry about technical details, you can point to the design docs
+
+# Design System
+
+## Message 24
+> ok, i'm realizing we should also talk about the design language. i want clean, modern, and minimalistic. you shouldn't look at the site and think 2020, it should be effortlessly modern. how do we spec this out as actual design goals/css/guidelines?
+
+## Message 25
+> site should be dark mode only
