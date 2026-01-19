@@ -71,22 +71,37 @@ System fonts feel native and load instantly.
 
 ## Spacing
 
-Base unit: 4px
+Base unit: 4px (0.25rem)
 
-| Token | Value | Use |
-|-------|-------|-----|
-| xs | 4px | Inline spacing, icon gaps |
-| sm | 8px | Tight grouping |
-| md | 16px | Default padding, gaps |
-| lg | 24px | Section separation |
-| xl | 32px | Major sections |
+| Token | rem | px (at 16px root) | Use |
+|-------|-----|-------------------|-----|
+| xs | 0.25rem | 4px | Inline spacing, icon gaps |
+| sm | 0.5rem | 8px | Tight grouping |
+| md | 1rem | 16px | Default padding, gaps |
+| lg | 1.5rem | 24px | Section separation |
+| xl | 2rem | 32px | Major sections |
+
+### Units Philosophy
+
+Per Josh Comeau: **"Should this value scale up as the user increases their browser's default font size?"**
+
+| Use | Unit | Rationale |
+|-----|------|-----------|
+| Typography | rem | Respects user font preferences |
+| Vertical margins on text | rem | Readability scales proportionally |
+| Layout gaps | rem | Spacing should breathe with text |
+| Horizontal padding | px or rem | Either works; px prevents line-wrap amplification |
+| Borders | px | 1px line should stay 1px |
+| Shadows | px | Decorative, not functional |
+| Touch targets | px | Physical size for fingers, not text-relative |
+| Input heights | px | Minimum physical size |
 
 ### Layout
 
-- Consistent internal padding: 16px
-- Panel gaps: 16px
-- Input height: 40px
-- Touch targets: minimum 44px
+- Consistent internal padding: 1rem
+- Panel gaps: 1rem
+- Input height: 40px (minimum physical size)
+- Touch targets: minimum 44px (physical size for fingers)
 
 ### Responsive Layout
 
@@ -95,17 +110,18 @@ Content-driven, no fixed breakpoints. Panels flow based on available width.
 ```css
 .panel-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  gap: 1rem;
 }
 ```
 
 **Behavior:**
-- Side-by-side when viewport fits two 280px panels
+- Side-by-side when viewport fits two 17.5rem panels (~280px at default font)
 - Stacks automatically when it can't
+- Users with larger font sizes see stacked layout sooner (correct behavior)
 - No magic breakpoint numbers to maintain
-- Panel min-width: 280px
-- Max content width: 800px (centered on large screens)
+- Panel min-width: 17.5rem
+- Max content width: 50rem (centered on large screens)
 
 **Full-width elements** (always span both columns):
 - Options panel
@@ -244,15 +260,24 @@ Avoid:
     muted: 'var(--color-text-muted)',
   },
   borderRadius: {
-    DEFAULT: '6px',
+    DEFAULT: '6px',  // px: decorative
   },
   fontSize: {
-    body: ['0.875rem', { lineHeight: '1.5' }],
+    body: ['0.875rem', { lineHeight: '1.5' }],      // rem: scales with user pref
     label: ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.025em' }],
     value: ['1rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
   },
+  spacing: {
+    // Tailwind's default spacing uses rem (0.25rem increments)
+    // This is correct - no overrides needed
+  },
+  maxWidth: {
+    content: '50rem',  // rem: responds to font size
+  },
 }
 ```
+
+**Note:** Tailwind's default spacing scale already uses rem (e.g., `p-4` = `1rem`), which aligns with our units philosophy.
 
 ---
 

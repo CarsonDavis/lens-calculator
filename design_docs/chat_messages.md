@@ -165,3 +165,10 @@
 
 ## Message 37
 > perfect. make sure and update our readme and use @CHAT_LOG_GUIDELINES.md to update the log
+
+# Mobile Design Review
+
+## Message 38
+> ok, read @research/react-web-dev-guide/mobile-design.md and see if we need to update anything in our architecture
+
+(Updated design-system.md: added units philosophy section explaining rem vs px usage, converted responsive layout to use rem for panel min-width and gaps, updated max content width to rem)
