@@ -140,3 +140,28 @@
 
 ## Message 30
 > yes. is it possible to make this more clear in the dof vs blur disc info content
+
+# Design Doc Gap Analysis
+
+## Message 31
+> read @README.md, then read @design_docs/README.md and the required files it points to. as you go through the files, think if there is anything we haven't planned out yet that needs to be in our design docs
+
+## Message 32
+> ok, for each of these i want you to give me some possibilities and a recommendation as architecture-questionnair-2.md. think deliberately and carefully
+
+## Message 33
+> for query parameters, it's important that custom formats be saveable so they can be shared. is that really so hard via human readable?
+
+## Message 34
+> add sections in the document where i can give my response
+
+## Message 35
+> ok, i have filled in our questionnaire
+
+(Decisions made: URL params with short keys, clamp-on-blur validation, modal for custom formats, content-driven responsive layout, FF 50mm f/1.8 → APS-C defaults, auto-switch distance units, calculated apertures up to 2 decimals, digital MF sensors by size, collapsed options panel with segmented buttons)
+
+## Message 36
+> ok, let's take these responses and your recs and update our architecture. or are some of these specific enough to need a new file?
+
+## Message 37
+> perfect. make sure and update our readme and use @CHAT_LOG_GUIDELINES.md to update the log

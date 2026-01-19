@@ -105,6 +105,46 @@ Plain-english explanations of:
 
 Common formats with custom entry option:
 - Full frame 35mm, APS-C (Canon/Nikon/Sony), Micro Four Thirds, 1"
-- Medium format: 645, 6×6, 6×7, digital MF
+- Medium format: 645, 6×6, 6×7, digital MF (44×33, 54×40)
 - Large format: 4×5, 8×10
 - Cinema: Super 35, Super 16
+
+### Custom Format Creation
+
+**Trigger:** "Custom..." option at bottom of format dropdown
+
+**Modal dialog:**
+```
+┌─────────────────────────────────┐
+│  New Custom Format              │
+│  ─────────────────              │
+│  Name:   [________________]     │  (optional, defaults to "W × H mm")
+│  Width:  [______] mm            │
+│  Height: [______] mm            │
+│                                 │
+│         [Cancel]  [Save]        │
+└─────────────────────────────────┘
+```
+
+**Edit/delete:** Small edit icon appears on hover next to custom formats in dropdown. Opens same modal pre-filled. Delete button in modal when editing.
+
+---
+
+### Options Panel
+
+**Default state:** Collapsed
+
+**Layout when expanded:**
+```
+┌─────────────────────────────────────────────────┐
+│ OPTIONS                                      [−]│
+├─────────────────────────────────────────────────┤
+│ Equivalence   [Diagonal] [Width] [Height] [Area]│
+│ Match         [Blur disc] [DOF]                 │
+└─────────────────────────────────────────────────┘
+```
+
+**Controls:**
+- Segmented buttons (not dropdowns) — all options visible at once
+- "OPTIONS" header with chevron indicates expandability
+- Defaults: Diagonal equivalence, Blur disc matching

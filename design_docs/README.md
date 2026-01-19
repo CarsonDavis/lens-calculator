@@ -30,7 +30,8 @@ Guide to the design docs for developers working on this project.
 
 | File | Purpose |
 |------|---------|
-| **architecture-questionnaire.md** | Historical — questions and answers that led to architecture decisions |
+| **architecture-questionnaire.md** | Historical — questions and answers that led to initial architecture decisions |
+| **architecture-questionnaire-2.md** | Historical — follow-up decisions on URL format, validation, responsive layout, etc. |
 | **chat_messages.md** | Historical — conversation log capturing design decisions |
 
 These capture *why* decisions were made but aren't needed for implementation.

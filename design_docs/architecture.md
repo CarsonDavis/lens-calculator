@@ -45,6 +45,68 @@
 | Custom formats | localStorage |
 | User accounts | None |
 
+### URL State Serialization
+
+Individual query parameters with short keys:
+
+```
+?sf=full-frame-35mm    # source format (preset ID)
+&sl=50                 # source focal length (mm)
+&sa=1.4                # source aperture (f-number)
+&sd=2000               # source subject distance (mm, optional)
+&tf=apsc-canon         # target format (preset ID)
+&tl=                   # target focal length override (optional)
+&ta=                   # target aperture override (optional)
+&em=diagonal           # equivalence method
+&mm=blur_disc          # match mode
+```
+
+**Custom formats** use width/height params instead of format ID:
+
+```
+# Custom source, preset target
+?sw=43.8&sh=32.9&sn=GFX&sl=63&sa=2.8&tf=full-frame-35mm
+
+# Preset source, custom target
+?sf=full-frame-35mm&sl=50&sa=1.4&tw=43.8&th=32.9&tn=GFX
+```
+
+**Rule:** If `sf`/`tf` (format ID) present → use preset. If `sw`/`sh` or `tw`/`th` (width/height) present → use custom. Name (`sn`/`tn`) is optional.
+
+---
+
+## Input Validation
+
+### Bounds
+
+| Field | Min | Max | Notes |
+|-------|-----|-----|-------|
+| Focal length | 1mm | 2000mm | Covers fisheye to super-tele |
+| Aperture | f/0.7 | f/128 | f/0.7 exists; f/128 for large format |
+| Subject distance | focal length + 1mm | 100km | Must exceed focal length |
+| Format width/height | 1mm | 500mm | Phone sensors to 8×10 |
+
+### Behavior
+
+- **Clamp on blur** — values corrected when input loses focus, not on keystroke
+- **Brief indicator** — subtle animation when value is clamped
+- **Never block** — calculations always run
+
+### Edge Case Handling
+
+| Situation | Behavior |
+|-----------|----------|
+| Subject distance ≤ focal length | Clamp to focal_length + 1mm |
+| Calculated aperture < f/0.7 | Show value with "(theoretical)" note |
+| Calculated aperture > f/128 | Show value with "(theoretical)" note |
+| Division by zero | Cannot occur if inputs validated |
+
+### Contextual Warnings
+
+Display on results (not blocking):
+- Near macro range: "DOF approximations less accurate at close distances"
+- Theoretical aperture: "f/0.5 (theoretical — no such lens exists)"
+
 ---
 
 ## Platform & Deployment

@@ -88,6 +88,73 @@ Base unit: 4px
 - Input height: 40px
 - Touch targets: minimum 44px
 
+### Responsive Layout
+
+Content-driven, no fixed breakpoints. Panels flow based on available width.
+
+```css
+.panel-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+```
+
+**Behavior:**
+- Side-by-side when viewport fits two 280px panels
+- Stacks automatically when it can't
+- No magic breakpoint numbers to maintain
+- Panel min-width: 280px
+- Max content width: 800px (centered on large screens)
+
+**Full-width elements** (always span both columns):
+- Options panel
+- Sensor overlay
+- Information panel
+
+---
+
+## Number Formatting
+
+### Decimal Places
+
+| Value | Decimals | Example |
+|-------|----------|---------|
+| Focal length | 0 or 1 | 50mm, 52.5mm (1 if not whole) |
+| Aperture (user input) | 1 | f/1.8, f/2.0 |
+| Aperture (calculated) | up to 2 | f/2.73 |
+| Subject distance | 0 | 2000mm |
+| FOV (degrees) | 1 | 46.8° |
+| DOF distances | 0 | 1847mm |
+| CoC | 3 | 0.029mm |
+| Blur disc | 2 | 0.45mm |
+| Blur percent | 2 | 1.25% |
+| Crop factor | 2 | 1.53× |
+
+### Distance Display
+
+Auto-switch units for readability:
+
+| Range | Display |
+|-------|---------|
+| < 1m | millimeters, no decimals (850mm) |
+| 1m – 100m | meters, 1 decimal (2.5m) |
+| > 100m | meters, no decimals (150m) |
+| > 10km or past hyperfocal | ∞ |
+
+### Special Values
+
+| Situation | Display |
+|-----------|---------|
+| Infinity | "∞" |
+| Not applicable | "—" |
+| Theoretical aperture | "f/0.5 *" with footnote |
+
+### Formatting Rules
+
+- Aperture: "f/1.8" (plain f, not ƒ)
+- Use tabular figures: `font-variant-numeric: tabular-nums`
+
 ---
 
 ## Components

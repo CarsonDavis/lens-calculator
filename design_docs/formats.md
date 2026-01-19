@@ -14,7 +14,7 @@ Dimensions sourced from Wikipedia (Circle of Confusion article).
 | APS-H (Canon) | 28.7 | 19.0 | 3:2 |
 | Full Frame 35mm | 36 | 24 | 3:2 |
 
-## Medium Format
+## Medium Format (Film)
 
 | Format | Width (mm) | Height (mm) | Aspect Ratio |
 |--------|------------|-------------|--------------|
@@ -24,6 +24,13 @@ Dimensions sourced from Wikipedia (Circle of Confusion article).
 | 6x9 | 84 | 56 | 3:2 |
 | 6x12 | 112 | 56 | 2:1 |
 | 6x17 | 168 | 56 | 3:1 |
+
+## Medium Format (Digital)
+
+| Format | Width (mm) | Height (mm) | Aspect Ratio | Examples |
+|--------|------------|-------------|--------------|----------|
+| Digital MF 44×33 | 43.8 | 32.9 | 4:3 | Fujifilm GFX, Hasselblad X, Pentax 645Z |
+| Digital MF 54×40 | 53.4 | 40.0 | 4:3 | Phase One IQ4, Hasselblad H system |
 
 ## Large Format
 

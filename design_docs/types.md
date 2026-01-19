@@ -172,9 +172,25 @@ interface CustomFormat {
 
 ```typescript
 // Primitive atoms (user input)
-const sourceAtom = atom<SourceState>({ ... });
-const targetAtom = atom<TargetState>({ ... });
-const optionsAtom = atom<Options>({ ... });
+const sourceAtom = atom<SourceState>({
+  formatId: 'full-frame-35mm',
+  focalLength: 50,
+  aperture: 1.8,
+  subjectDistance: null,
+});
+
+const targetAtom = atom<TargetState>({
+  formatId: 'apsc-generic',
+  focalLengthOverride: null,
+  apertureOverride: null,
+});
+
+const optionsAtom = atom<Options>({
+  equivalenceMethod: 'diagonal',
+  matchMode: 'blur_disc',
+  displayUnit: 'mm',
+});
+
 const customFormatsAtom = atom<Format[]>([]);
 
 // Derived atoms (calculated)
@@ -187,3 +203,10 @@ const equivalenceResultAtom = atom<EquivalenceResult>((get) => {
   return calculateEquivalence(source, target, options, formats);
 });
 ```
+
+### Default State Rationale
+
+- **Full Frame 50mm f/1.8 → APS-C**: Most common "what's my equivalent?" question
+- **No subject distance**: Keeps initial view clean; DOF shown when user enters distance
+- **Diagonal equivalence**: Standard crop factor calculation
+- **Blur disc matching**: More intuitive than DOF for most photographers
