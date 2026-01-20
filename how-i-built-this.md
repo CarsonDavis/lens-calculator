@@ -163,6 +163,8 @@ Reviewed mobile design guidelines and updated design-system.md with rem-based si
 
 3. **Fixes applied** — Updated implementation to use exact formulas, clarified comments, strengthened test assertions.
 
+4. **Cross-format subject distance bug** — Found via screenshots that pinned focal length was giving wrong apertures (APS-C 35mm f/2.0 → FF 50mm was calculating f/1.87 instead of f/2.87). Root cause: the subject distance scaling formula `s_t = s_s × (f_t / f_s)` only works for same-format comparisons. For cross-format, it needs to scale relative to equivalent focal length: `s_t = s_s × (f_t / f_equiv)`. Fixed multiple functions in equivalence.ts.
+
 **Chat log:** [src/calc/chat_messages.md](src/calc/chat_messages.md)
 
 **Files created:**

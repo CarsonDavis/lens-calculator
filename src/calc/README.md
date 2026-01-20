@@ -178,13 +178,18 @@ Blur percent: B / width × 100
 
 ## Subject Distance Scaling
 
-When comparing formats, the target subject distance is scaled to maintain the same framing:
+For **default equivalence** (Situations 1-2, no overrides), subject distance is the **same** on both sides. Equivalent focal lengths produce the same FOV, so the same distance gives the same framing and matching blur percentage.
+
+For **override situations** (Situations 3-6), subject distance is scaled relative to the equivalent focal length to maintain framing when using a non-equivalent focal length:
 
 ```
-s_target = s_source × (f_target / f_source)
+s_target = s_source × (f_target / f_equivalent)
+         = s_source × (f_target / (f_source × CF))
 ```
 
-This affects the override calculations (Situations 3-6) — the formulas account for this scaling.
+Where CF is the crop factor (target diagonal / source diagonal).
+
+The override formulas account for this scaling.
 
 ## Testing
 
@@ -194,7 +199,7 @@ npm test           # Watch mode
 npm run typecheck  # Type checking only
 ```
 
-72 unit tests cover all calculations including edge cases (infinity DOF, theoretical apertures).
+74 unit tests cover all calculations including edge cases (infinity DOF, theoretical apertures).
 
 ## File Structure
 

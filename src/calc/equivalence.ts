@@ -51,90 +51,97 @@ export function calculateEntrancePupil(
 }
 
 // Situation 3: Aperture to match blur disc when focal length is overridden
-// Note: This accounts for subject distance scaling (s_target = s_source × f_target/f_source)
+// Note: Subject distance scales relative to equivalent focal length: s_target = s_source × f_target/f_equiv
 export function calculateApertureForMatchingBlur(
   sourceFocalLength: number,
   sourceAperture: number,
   sourceWidth: number,
   targetFocalLength: number,
-  targetWidth: number
+  targetWidth: number,
+  cropFactor: number
 ): number {
-  // Derivation with scaled subject distance:
+  // Derivation with correct cross-format subject distance scaling:
   // Source blur %: f_s² / (N_s × s_s × w_s)
-  // Target blur %: f_t² / (N_t × s_t × w_t) where s_t = s_s × (f_t/f_s)
-  //              = f_t² / (N_t × s_s × (f_t/f_s) × w_t)
-  //              = f_t × f_s / (N_t × s_s × w_t)
-  // Setting equal: N_t = N_s × (f_t / f_s) × (w_s / w_t)
+  // Target blur %: f_t² / (N_t × s_t × w_t)
+  // Subject distance: s_t = s_s × (f_t / f_equiv) = s_s × (f_t / (f_s × CF))
+  // Substituting: f_t² / (N_t × s_s × (f_t/(f_s×CF)) × w_t) = f_t × f_s × CF / (N_t × s_s × w_t)
+  // Setting equal: N_t = N_s × (f_t / f_s) × CF × (w_s / w_t)
   const focalRatio = targetFocalLength / sourceFocalLength;
   const widthRatio = sourceWidth / targetWidth;
-  return sourceAperture * focalRatio * widthRatio;
+  return sourceAperture * focalRatio * cropFactor * widthRatio;
 }
 
 // Situation 4: Aperture to match DOF when focal length is overridden
-// Note: This accounts for subject distance scaling (s_target = s_source × f_target/f_source)
+// Note: Subject distance scales relative to equivalent focal length: s_target = s_source × f_target/f_equiv
 export function calculateApertureForMatchingDOF(
   _sourceFocalLength: number,
   sourceAperture: number,
-  sourceDiagonal: number,
+  _sourceDiagonal: number,
   _targetFocalLength: number,
-  targetDiagonal: number
+  _targetDiagonal: number,
+  cropFactor: number
 ): number {
-  // Derivation with scaled subject distance using DOF ≈ 2 × N × CoC × s² / f²:
-  // DOF_source = 2 × N_s × CoC_s × s_s² / f_s²
-  // DOF_target = 2 × N_t × CoC_t × s_t² / f_t² where s_t = s_s × (f_t/f_s)
-  //            = 2 × N_t × CoC_t × s_s² × f_t²/(f_s² × f_t²)
-  //            = 2 × N_t × CoC_t × s_s² / f_s²
-  // Setting equal: N_s × CoC_s = N_t × CoC_t
-  // Since CoC = d/1500: N_t = N_s × d_source / d_target
-  // Note: focal lengths cancel out completely when subject distance is scaled
-  const diagonalRatio = sourceDiagonal / targetDiagonal;
-  return sourceAperture * diagonalRatio;
+  // Derivation with correct cross-format subject distance scaling:
+  // DOF ≈ 2 × N × CoC × s² / f²
+  // Subject distance: s_t = s_s × (f_t / f_equiv) = s_s × (f_t / (f_s × CF))
+  // DOF_target = 2 × N_t × CoC_t × s_s² × (f_t/(f_s×CF))² / f_t²
+  //            = 2 × N_t × CoC_t × s_s² / (f_s² × CF²)
+  // Setting equal to DOF_source: N_t × CoC_t / CF² = N_s × CoC_s
+  // Since CoC = d/1500 and CF = d_t/d_s:
+  // N_t = N_s × (d_s/d_t) × CF² = N_s × (d_s/d_t) × (d_t/d_s)² = N_s × CF
+  // Result: DOF matching always requires the equivalent aperture, regardless of focal length override
+  return sourceAperture * cropFactor;
 }
 
 // Situation 5: Focal length to match blur disc when aperture is overridden
-// Note: This accounts for subject distance scaling (s_target = s_source × f_target/f_source)
+// Note: Subject distance scales relative to equivalent focal length: s_target = s_source × f_target/f_equiv
 export function calculateFocalForMatchingBlur(
   sourceFocalLength: number,
   sourceAperture: number,
   sourceWidth: number,
   targetAperture: number,
-  targetWidth: number
+  targetWidth: number,
+  cropFactor: number
 ): number {
-  // Derivation with scaled subject distance:
-  // Source blur %: f_s / (N_s × w_s) (subject distance cancels after scaling)
-  // Target blur %: f_t / (N_t × w_t)
-  // Setting equal: f_t = f_s × (N_t / N_s) × (w_t / w_s)
+  // Derivation with correct cross-format subject distance scaling:
+  // From blur matching: f_s / (N_s × w_s) = f_t × CF / (N_t × w_t)
+  // Solving for f_t: f_t = f_s × (N_t / N_s) × (w_t / w_s) / CF
   const apertureRatio = targetAperture / sourceAperture;
   const widthRatio = targetWidth / sourceWidth;
-  return sourceFocalLength * apertureRatio * widthRatio;
+  return (sourceFocalLength * apertureRatio * widthRatio) / cropFactor;
 }
 
 // Situation 6: Focal length to match DOF when aperture is overridden
-// Note: When subject distance is scaled, DOF depends only on N × CoC, not focal length.
-// This returns a focal length that would give the same FOV as the equivalent lens.
+// Note: With correct subject distance scaling, DOF depends only on N × CoC × CF², not focal length.
+// DOF matching requires N_t = N_s × CF (equivalent aperture). If aperture is overridden to a
+// different value, exact DOF matching is impossible. We return the equivalent focal length
+// to at least preserve FOV matching.
 export function calculateFocalForMatchingDOF(
   sourceFocalLength: number,
-  sourceAperture: number,
-  sourceDiagonal: number,
-  targetAperture: number,
-  targetDiagonal: number
+  _sourceAperture: number,
+  _sourceDiagonal: number,
+  _targetAperture: number,
+  _targetDiagonal: number,
+  cropFactor: number
 ): number {
-  // With scaled subject distance, DOF ≈ 2 × N × CoC × s_s² / f_s² (independent of f_target)
-  // Since DOF matching cannot be achieved by varying focal length alone,
-  // we return a focal length that preserves the relationship between
-  // blur and DOF characteristics:
-  // f_target = f_source × sqrt((N_target × d_target) / (N_source × d_source))
-  const numerator = targetAperture * targetDiagonal;
-  const denominator = sourceAperture * sourceDiagonal;
-  return sourceFocalLength * Math.sqrt(numerator / denominator);
+  // DOF matching cannot be achieved by varying focal length alone when aperture is overridden.
+  // Return the equivalent focal length to maintain matching FOV.
+  return sourceFocalLength * cropFactor;
 }
 
-// Scale subject distance to maintain same framing
+// Scale subject distance to maintain same framing across formats
 export function calculateTargetSubjectDistance(
   sourceSubjectDistance: number,
   sourceFocalLength: number,
-  targetFocalLength: number
+  targetFocalLength: number,
+  cropFactor: number
 ): number {
-  // s_target = s_source × (f_target / f_source)
-  return sourceSubjectDistance * (targetFocalLength / sourceFocalLength);
+  // Subject distance scales relative to equivalent focal length:
+  // s_target = s_source × (f_target / f_equiv)
+  // where f_equiv = f_source × cropFactor
+  //
+  // For default equivalence (f_target = f_equiv): s_target = s_source (same distance)
+  // For override cases: distance adjusts to maintain framing
+  const equivalentFocalLength = sourceFocalLength * cropFactor;
+  return sourceSubjectDistance * (targetFocalLength / equivalentFocalLength);
 }

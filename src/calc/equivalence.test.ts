@@ -99,83 +99,139 @@ describe('equivalence calculations', () => {
   describe('calculateApertureForMatchingBlur', () => {
     it('calculates aperture to match blur when focal is overridden', () => {
       // Given: FF 50mm f/1.4, want to find aperture for APS-C 35mm
-      // Formula: N_t = N_s × (f_t / f_s) × (w_s / w_t)
-      //        = 1.4 × (35/50) × (36/22.5) = 1.4 × 0.7 × 1.6 ≈ 1.57
+      // cropFactor (FF → APS-C) = 0.625
+      // Formula: N_t = N_s × (f_t / f_s) × CF × (w_s / w_t)
+      //        = 1.4 × (35/50) × 0.625 × (36/22.5) = 1.4 × 0.7 × 0.625 × 1.6 ≈ 0.98
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal; // ~0.625
       const aperture = calculateApertureForMatchingBlur(
         50, // source focal
         1.4, // source aperture
         36, // source width
         35, // target focal
-        22.5 // target width
+        22.5, // target width
+        cropFactor
       );
-      expect(aperture).toBeCloseTo(1.568, 2);
+      expect(aperture).toBeCloseTo(0.98, 2);
     });
 
-    it('returns wider aperture when using longer lens on smaller sensor', () => {
-      // If target lens is proportionally longer, need wider aperture
+    it('returns same aperture when using same focal on smaller sensor (effects cancel)', () => {
+      // When using same focal length on smaller sensor with correct distance scaling,
+      // the aperture effects cancel out
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal;
       const aperture = calculateApertureForMatchingBlur(
         50, // source focal
         2.8, // source aperture
         36, // source width
-        50, // target focal (same, but smaller sensor)
-        22.5 // target width
+        50, // target focal (same)
+        22.5, // target width
+        cropFactor
       );
-      // N_t = 2.8 × (50/50) × (36/22.5) = 2.8 × 1 × 1.6 = 4.48
-      expect(aperture).toBeCloseTo(4.48, 2);
+      // N_t = 2.8 × (50/50) × 0.625 × (36/22.5) = 2.8 × 1 × 0.625 × 1.6 = 2.8
+      expect(aperture).toBeCloseTo(2.8, 2);
     });
   });
 
   describe('calculateApertureForMatchingDOF', () => {
     it('calculates aperture to match DOF when focal is overridden', () => {
+      // DOF matching always requires equivalent aperture: N_t = N_s × CF
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal; // ~0.625
       const aperture = calculateApertureForMatchingDOF(
         50,
         1.4,
         fullFrameDerived.diagonal,
         35,
-        apscDerived.diagonal
+        apscDerived.diagonal,
+        cropFactor
       );
-      expect(aperture).toBeGreaterThan(0);
+      // N_t = 1.4 × 0.625 = 0.875
+      expect(aperture).toBeCloseTo(0.875, 2);
     });
   });
 
   describe('calculateFocalForMatchingBlur', () => {
     it('calculates focal to match blur when aperture is overridden', () => {
       // Given: FF 50mm f/1.4, want to find focal for APS-C at f/1.4
+      // Formula: f_t = f_s × (N_t / N_s) × (w_t / w_s) / CF
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal; // ~0.625
       const focal = calculateFocalForMatchingBlur(
         50, // source focal
         1.4, // source aperture
         36, // source width
         1.4, // target aperture (same)
-        22.5 // target width
+        22.5, // target width
+        cropFactor
       );
-      // Should be shorter since sensor is smaller
-      expect(focal).toBeLessThan(50);
+      // f_t = 50 × (1.4/1.4) × (22.5/36) / 0.625 = 50 × 0.625 / 0.625 = 50
+      // With same aperture and correct distance scaling, same focal length matches blur
+      expect(focal).toBeCloseTo(50, 1);
+    });
+
+    it('calculates shorter focal when using wider aperture', () => {
+      // If target aperture is wider (smaller f-number), need shorter focal
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal;
+      const focal = calculateFocalForMatchingBlur(
+        50, // source focal
+        2.8, // source aperture
+        36, // source width
+        1.4, // target aperture (wider)
+        22.5, // target width
+        cropFactor
+      );
+      // f_t = 50 × (1.4/2.8) × (22.5/36) / 0.625 = 50 × 0.5 × 0.625 / 0.625 = 25
+      expect(focal).toBeCloseTo(25, 1);
     });
   });
 
   describe('calculateFocalForMatchingDOF', () => {
-    it('calculates focal to match DOF when aperture is overridden', () => {
+    it('returns equivalent focal length (DOF matching via focal is not possible)', () => {
+      // DOF matching requires equivalent aperture, not focal length adjustment
+      // Returns equivalent focal length to at least match FOV
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal; // ~0.625
       const focal = calculateFocalForMatchingDOF(
         50,
         1.4,
         fullFrameDerived.diagonal,
         1.4,
-        apscDerived.diagonal
+        apscDerived.diagonal,
+        cropFactor
       );
-      expect(focal).toBeGreaterThan(0);
+      // Returns equivalent focal: 50 × 0.625 = 31.25
+      expect(focal).toBeCloseTo(31.25, 1);
     });
   });
 
   describe('calculateTargetSubjectDistance', () => {
-    it('scales subject distance to maintain framing', () => {
-      // If target focal is shorter, need to be closer
-      const targetDistance = calculateTargetSubjectDistance(2000, 50, 35);
+    it('scales subject distance to maintain framing (same format)', () => {
+      // For same format (CF=1), if target focal is shorter, need to be closer
+      const targetDistance = calculateTargetSubjectDistance(2000, 50, 35, 1);
       expect(targetDistance).toBe(1400);
     });
 
-    it('returns same distance for same focal length', () => {
-      const targetDistance = calculateTargetSubjectDistance(2000, 50, 50);
-      expect(targetDistance).toBe(2000);
+    it('returns same distance for equivalent focal length', () => {
+      // For default equivalence (target = source × CF), distance stays the same
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal; // ~0.625
+      const equivalentFocal = 50 * cropFactor; // ~31.25
+      const targetDistance = calculateTargetSubjectDistance(
+        2000,
+        50,
+        equivalentFocal,
+        cropFactor
+      );
+      expect(targetDistance).toBeCloseTo(2000, 0);
+    });
+
+    it('scales distance when using non-equivalent focal length', () => {
+      // FF 50mm → APS-C 35mm (not the equivalent 31.25mm)
+      // Need to adjust distance to maintain framing
+      const cropFactor = apscDerived.diagonal / fullFrameDerived.diagonal; // ~0.625
+      const targetDistance = calculateTargetSubjectDistance(
+        2000,
+        50,
+        35,
+        cropFactor
+      );
+      // s_t = 2000 × (35 / (50 × 0.625)) = 2000 × (35 / 31.25) = 2240
+      expect(targetDistance).toBeCloseTo(2240, 0);
     });
   });
 });

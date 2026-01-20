@@ -102,3 +102,47 @@
 ## Message 10
 
 > log this to the end
+
+# Fix Cross-Format Subject Distance Scaling Bug
+
+## Message 11
+
+> i want you to read @research/lens-equations/report.md and then @src/calc/README.md to get an understanding of how we do calculations
+
+## Message 12
+
+> you can see here two screenshots, one with an equivalence and one with with a pinned value. however the pinned value of 50mm is obviously the wrong aperture
+>
+> [Screenshots showing APS-C 35mm f/2.0 → FF with pinned 50mm calculating f/1.87 instead of correct ~f/2.87]
+
+## Message 13
+
+> yes, fix them
+
+## Message 14
+
+> ok, so what would the target focal length be if apsc, 35, f2 and a target of full frame, f/1.4
+
+## Message 15
+
+> does that make sense?
+
+### Resolution
+
+Fixed bug in cross-format equivalence calculations. The subject distance scaling formula `s_t = s_s × (f_t / f_s)` only works for same-format comparisons. For cross-format, it must scale relative to the equivalent focal length:
+
+```
+s_t = s_s × (f_t / f_equiv) = s_t × (f_t / (f_s × CF))
+```
+
+Functions fixed:
+
+- `calculateTargetSubjectDistance` - now returns same distance for default equivalence
+- `calculateApertureForMatchingBlur` - added CF factor to formula
+- `calculateApertureForMatchingDOF` - simplified to return equivalent aperture (N_s × CF)
+- `calculateFocalForMatchingBlur` - added division by CF
+- `calculateFocalForMatchingDOF` - simplified to return equivalent focal length
+
+For APS-C 35mm f/2.0 → FF 50mm pinned: aperture changed from f/1.87 (wrong) to f/2.87 (correct).
+
+Follow-up discussion confirmed that while `calculateFocalForMatchingBlur` correctly calculates ~24mm for FF f/1.4 to match APS-C 35mm f/2.0 blur %, this comparison is mathematically valid but practically unusual (comparing normal lens to wide-angle from different distances).
