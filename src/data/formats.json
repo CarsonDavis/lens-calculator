@@ -1,0 +1,151 @@
+{
+  "formats": [
+    {
+      "id": "1-inch",
+      "name": "1\" Sensor",
+      "width": 13.2,
+      "height": 8.8,
+      "category": "small"
+    },
+    {
+      "id": "four-thirds",
+      "name": "Four Thirds / MFT",
+      "width": 18,
+      "height": 13.5,
+      "category": "small"
+    },
+    {
+      "id": "apsc-generic",
+      "name": "APS-C (Generic)",
+      "width": 22.5,
+      "height": 15.0,
+      "category": "small"
+    },
+    {
+      "id": "apsc-canon",
+      "name": "APS-C (Canon)",
+      "width": 22.2,
+      "height": 14.8,
+      "category": "small"
+    },
+    {
+      "id": "apsc-nikon",
+      "name": "APS-C (Nikon/Pentax/Sony)",
+      "width": 23.6,
+      "height": 15.7,
+      "category": "small"
+    },
+    {
+      "id": "apsh-canon",
+      "name": "APS-H (Canon)",
+      "width": 28.7,
+      "height": 19.0,
+      "category": "small"
+    },
+    {
+      "id": "full-frame-35mm",
+      "name": "Full Frame 35mm",
+      "width": 36,
+      "height": 24,
+      "category": "small"
+    },
+    {
+      "id": "645-film",
+      "name": "645 (6x4.5)",
+      "width": 56,
+      "height": 42,
+      "category": "medium"
+    },
+    {
+      "id": "6x6-film",
+      "name": "6x6",
+      "width": 56,
+      "height": 56,
+      "category": "medium"
+    },
+    {
+      "id": "6x7-film",
+      "name": "6x7",
+      "width": 69,
+      "height": 56,
+      "category": "medium"
+    },
+    {
+      "id": "6x9-film",
+      "name": "6x9",
+      "width": 84,
+      "height": 56,
+      "category": "medium"
+    },
+    {
+      "id": "6x12-film",
+      "name": "6x12",
+      "width": 112,
+      "height": 56,
+      "category": "medium"
+    },
+    {
+      "id": "6x17-film",
+      "name": "6x17",
+      "width": 168,
+      "height": 56,
+      "category": "medium"
+    },
+    {
+      "id": "mf-digital-44x33",
+      "name": "Digital MF 44×33",
+      "width": 43.8,
+      "height": 32.9,
+      "category": "medium"
+    },
+    {
+      "id": "mf-digital-54x40",
+      "name": "Digital MF 54×40",
+      "width": 53.4,
+      "height": 40.0,
+      "category": "medium"
+    },
+    {
+      "id": "4x5-film",
+      "name": "4x5",
+      "width": 127,
+      "height": 102,
+      "category": "large"
+    },
+    {
+      "id": "5x7-film",
+      "name": "5x7",
+      "width": 178,
+      "height": 127,
+      "category": "large"
+    },
+    {
+      "id": "8x10-film",
+      "name": "8x10",
+      "width": 254,
+      "height": 203,
+      "category": "large"
+    },
+    {
+      "id": "super-16",
+      "name": "Super 16",
+      "width": 12.52,
+      "height": 7.41,
+      "category": "cinema"
+    },
+    {
+      "id": "academy-35mm",
+      "name": "Academy 35mm",
+      "width": 22,
+      "height": 16,
+      "category": "cinema"
+    },
+    {
+      "id": "super-35",
+      "name": "Super 35 (3-perf)",
+      "width": 24.89,
+      "height": 18.66,
+      "category": "cinema"
+    }
+  ]
+}
