@@ -2,6 +2,8 @@
 
 A calculator for comparing lenses across different camera formats.
 
+**Live app:** https://lens-calc.codebycarson.com/
+
 ## What It Does
 
 Photographers often wonder: "If I shoot 50mm f/1.4 on full frame, what's the equivalent on my APS-C camera?" or "What medium format lens gives me the same look as my 35mm f/2?"
