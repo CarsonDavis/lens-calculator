@@ -32,13 +32,16 @@ describe('equivalence calculations', () => {
   const apscDerived = withDerived(apsc);
 
   describe('calculateCropFactorBetweenFormats', () => {
-    it('calculates diagonal crop factor (~1.6 for APS-C vs FF)', () => {
+    it('calculates scaling factor from source to target format', () => {
+      // Note: This returns target/source ratio, NOT the traditional "crop factor"
+      // Traditional crop factor (FF/APS-C) = 1.6
+      // This function returns APS-C/FF = 0.625 (for scaling focal lengths)
       const cf = calculateCropFactorBetweenFormats(
         fullFrameDerived,
         apscDerived,
         'diagonal'
       );
-      expect(cf).toBeCloseTo(0.625, 2); // APS-C is smaller, so < 1
+      expect(cf).toBeCloseTo(0.625, 2);
     });
 
     it('calculates width crop factor', () => {

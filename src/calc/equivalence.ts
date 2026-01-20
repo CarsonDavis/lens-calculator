@@ -1,6 +1,9 @@
 import type { EquivalenceMethod, FormatWithDerived } from './types';
 
-// Crop factor between two formats based on equivalence method
+// Scaling factor between two formats based on equivalence method
+// Returns target/source ratio for scaling focal lengths and apertures
+// Note: This is NOT the traditional "crop factor" (which is FF/smaller = 1.6 for APS-C)
+// Example: FF→APS-C returns 0.625, meaning multiply FF focal length by 0.625 for equivalent on APS-C
 export function calculateCropFactorBetweenFormats(
   source: FormatWithDerived,
   target: FormatWithDerived,

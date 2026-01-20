@@ -141,14 +141,16 @@ The module handles six situations based on what's overridden:
 
 ## Key Formulas
 
-### Crop Factor Between Formats
+### Scaling Factor Between Formats
 
 ```
-diagonal: CF = d_target / d_source
-width:    CF = w_target / w_source
-height:   CF = h_target / h_source
-area:     CF = sqrt(area_target / area_source)
+diagonal: SF = d_target / d_source
+width:    SF = w_target / w_source
+height:   SF = h_target / h_source
+area:     SF = sqrt(area_target / area_source)
 ```
+
+**Note:** This is the target/source ratio used for scaling calculations, not the traditional "crop factor". Traditional crop factor is FF/smaller (e.g., 1.6 for APS-C). This scaling factor is the inverse when going from larger to smaller format (e.g., 0.625 for FF→APS-C).
 
 ### Equivalence (same FOV + same DOF/blur)
 
@@ -168,7 +170,8 @@ Far limit:   D_far = (H × s) / (H - s + f)  [∞ if denominator ≤ 0]
 ### Blur Disc
 
 ```
-Blur (infinity background): B = f² / (N × s)
+Blur (infinity background): B = f² / (N × (s - f))
+Blur (specific distance):   B = (f/N) × (f/(s-f)) × |1 - s/s_bg|
 Blur percent: B / width × 100
 ```
 

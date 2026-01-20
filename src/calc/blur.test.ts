@@ -8,9 +8,10 @@ import {
 describe('blur disc calculations', () => {
   describe('calculateBlurDisc', () => {
     it('calculates blur disc for background at infinity', () => {
-      // B = f² / (N × s) = 2500 / (1.4 × 2000) = 0.893mm
+      // Exact formula: c = f² / (N × (s - f))
+      // = 2500 / (1.4 × (2000 - 50)) = 2500 / (1.4 × 1950) = 0.916mm
       const blur = calculateBlurDisc(50, 1.4, 2000);
-      expect(blur).toBeCloseTo(0.893, 3);
+      expect(blur).toBeCloseTo(0.916, 3);
     });
 
     it('returns larger blur for wider aperture', () => {
@@ -34,9 +35,11 @@ describe('blur disc calculations', () => {
 
   describe('calculateBlurDiscAtDistance', () => {
     it('calculates blur for background at specific distance', () => {
-      // Subject at 2m, background at 10m
+      // Formula: c = (f/N) × (f/(s-f)) × |1 - s/s_bg|
+      // = (50/1.4) × (50/1950) × |1 - 2000/10000|
+      // = 35.71 × 0.0256 × 0.8 = 0.732mm
       const blur = calculateBlurDiscAtDistance(50, 1.4, 2000, 10000);
-      expect(blur).toBeGreaterThan(0);
+      expect(blur).toBeCloseTo(0.732, 2);
     });
 
     it('returns 0 when background at subject distance', () => {

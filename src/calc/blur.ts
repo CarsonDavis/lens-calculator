@@ -1,11 +1,12 @@
 // Blur disc for background at infinity
+// Uses exact formula: c = f² / (N × (s - f))
+// Not the approximation f² / (N × s) which introduces error at close distances
 export function calculateBlurDisc(
   focalLength: number,
   aperture: number,
   subjectDistance: number
 ): number {
-  // B = f² / (N × s)
-  return (focalLength * focalLength) / (aperture * subjectDistance);
+  return (focalLength * focalLength) / (aperture * (subjectDistance - focalLength));
 }
 
 // Blur disc for background at a specific distance
