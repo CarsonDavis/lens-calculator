@@ -194,12 +194,15 @@ Reviewed mobile design guidelines and updated design-system.md with rem-based si
 
 5. **Pre-commit hook fixes** — Lefthook was failing on commit with Prettier formatting issues, ESLint unescaped entities, and setState-in-useEffect warnings. Fixed the code issues, then updated lefthook.yml to auto-fix where possible: ESLint now uses `--fix`, Prettier uses `--write` instead of `--check`, and `stage_fixed: true` re-stages corrected files automatically.
 
+6. **URL persistence** — Implemented shareable URLs with query params for all state (formats, lens settings, options). Added localStorage session persistence as fallback. Added a Share button with icon in the header that copies the URL to clipboard. Also moved crop factor display from header into the Target panel results.
+
 **Chat log:** [src/chat_messages.md](src/chat_messages.md)
 
 **Files created:**
 
 - src/components/ — all UI components
 - src/atoms/ — Jotai state atoms
+- src/utils/url.ts — URL serialization/deserialization
 - [design_docs/dark-mode-comparisons.png](design_docs/dark-mode-comparisons.png) — color scheme comparison used for selection
 
 ---
@@ -227,5 +230,4 @@ Reviewed mobile design guidelines and updated design-system.md with rem-based si
 
 ## What's Next
 
-- [ ] URL persistence
 - [ ] E2E tests
