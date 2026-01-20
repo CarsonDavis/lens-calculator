@@ -108,7 +108,7 @@ describe('calculateEquivalence', () => {
   });
 
   describe('Situation 2: With subject distance', () => {
-    it('scales target subject distance to maintain framing', () => {
+    it('keeps same subject distance for default equivalence (same FOV)', () => {
       const source: SourceState = {
         formatId: 'full-frame',
         focalLength: 50,
@@ -128,9 +128,9 @@ describe('calculateEquivalence', () => {
         formats,
       });
 
-      // Target distance should be scaled by focal length ratio
-      const focalRatio = result.target.focalLength / result.source.focalLength;
-      expect(result.target.subjectDistance).toBeCloseTo(2000 * focalRatio, 0);
+      // For default equivalence, equivalent focal lengths produce the same FOV
+      // so the subject distance stays the same for identical framing
+      expect(result.target.subjectDistance).toBeCloseTo(2000, 0);
     });
 
     it('calculates DOF for both sides', () => {

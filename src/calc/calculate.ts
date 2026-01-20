@@ -107,7 +107,8 @@ export function calculateEquivalence(
       ? calculateTargetSubjectDistance(
           source.subjectDistance,
           source.focalLength,
-          targetFocalLength
+          targetFocalLength,
+          cropFactor
         )
       : undefined;
 
@@ -179,7 +180,8 @@ function resolveTargetValues(
         source.aperture,
         sourceFormat.width,
         targetFocalLength,
-        targetFormat.width
+        targetFormat.width,
+        cropFactor
       );
     } else {
       // Situation 4: Match DOF
@@ -188,7 +190,8 @@ function resolveTargetValues(
         source.aperture,
         sourceFormat.diagonal,
         targetFocalLength,
-        targetFormat.diagonal
+        targetFormat.diagonal,
+        cropFactor
       );
     }
 
@@ -211,7 +214,8 @@ function resolveTargetValues(
       source.aperture,
       sourceFormat.width,
       targetAperture,
-      targetFormat.width
+      targetFormat.width,
+      cropFactor
     );
   } else {
     // Situation 6: Match DOF
@@ -220,7 +224,8 @@ function resolveTargetValues(
       source.aperture,
       sourceFormat.diagonal,
       targetAperture,
-      targetFormat.diagonal
+      targetFormat.diagonal,
+      cropFactor
     );
   }
 
