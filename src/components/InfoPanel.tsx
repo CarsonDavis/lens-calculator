@@ -4,16 +4,16 @@ import { CollapsiblePanel } from './CollapsiblePanel';
 interface InfoSectionProps {
   title: string;
   children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-function InfoSection({ title, children }: InfoSectionProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
+function InfoSection({ title, children, isOpen, onToggle }: InfoSectionProps) {
   return (
     <div className="border-b border-border last:border-b-0">
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="
           w-full flex items-center justify-between
           py-3 text-left
@@ -55,10 +55,22 @@ function InfoSection({ title, children }: InfoSectionProps) {
 }
 
 export function InfoPanel() {
+  const [openSection, setOpenSection] = useState<string | null>(null);
+
+  const handleToggle = (title: string) => {
+    setOpenSection(openSection === title ? null : title);
+  };
+
   return (
     <CollapsiblePanel title="Information">
       <div className="-mx-4 px-4">
-        <InfoSection title="Subject Distance and Equivalent Lenses">
+        <InfoSection
+          title="Subject Distance and Equivalent Lenses"
+          isOpen={openSection === 'Subject Distance and Equivalent Lenses'}
+          onToggle={() =>
+            handleToggle('Subject Distance and Equivalent Lenses')
+          }
+        >
           <p>
             When comparing two lenses, you&apos;re not comparing the same
             distance from the subject — you&apos;re comparing taking the same
@@ -76,7 +88,11 @@ export function InfoPanel() {
           </p>
         </InfoSection>
 
-        <InfoSection title="Focal Length Equivalence">
+        <InfoSection
+          title="Focal Length Equivalence"
+          isOpen={openSection === 'Focal Length Equivalence'}
+          onToggle={() => handleToggle('Focal Length Equivalence')}
+        >
           <p>
             A 50mm lens is always a 50mm lens. The glass doesn&apos;t change
             when you put it on a different camera.
@@ -98,7 +114,11 @@ export function InfoPanel() {
           </p>
         </InfoSection>
 
-        <InfoSection title="Light Gathering vs Bokeh">
+        <InfoSection
+          title="Light Gathering vs Bokeh"
+          isOpen={openSection === 'Light Gathering vs Bokeh'}
+          onToggle={() => handleToggle('Light Gathering vs Bokeh')}
+        >
           <p>
             The f-number (like f/1.4 or f/2.8) describes two different things,
             and this causes endless confusion.
@@ -129,7 +149,11 @@ export function InfoPanel() {
           </p>
         </InfoSection>
 
-        <InfoSection title="DOF vs Blur Disc">
+        <InfoSection
+          title="DOF vs Blur Disc"
+          isOpen={openSection === 'DOF vs Blur Disc'}
+          onToggle={() => handleToggle('DOF vs Blur Disc')}
+        >
           <p>These measure different things.</p>
           <p>
             <strong>Depth of field</strong> is the range of distances that

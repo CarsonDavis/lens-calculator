@@ -21,6 +21,46 @@ import {
   formatCropFactor,
 } from '@/utils/format';
 
+interface ResetButtonProps {
+  onClick: () => void;
+  visible: boolean;
+  ariaLabel: string;
+}
+
+function ResetButton({ onClick, visible, ariaLabel }: ResetButtonProps) {
+  if (!visible) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="
+        ml-2 p-1.5 rounded-md
+        text-text-muted hover:text-text-secondary
+        hover:bg-border/50
+        transition-colors duration-150
+        focus:outline-none focus:ring-2 focus:ring-accent
+      "
+      aria-label={ariaLabel}
+      title={ariaLabel}
+    >
+      <svg
+        className="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+        />
+      </svg>
+    </button>
+  );
+}
+
 export function TargetPanel() {
   const [formatId, setFormatId] = useAtom(targetFormatIdAtom);
   const setFocalLengthOverride = useSetAtom(setTargetFocalLengthOverrideAtom);
@@ -72,16 +112,25 @@ export function TargetPanel() {
           >
             Focal Length
           </label>
-          <NumberInput
-            id="target-focal"
-            value={target.focalLength}
-            onChange={handleFocalLengthChange}
-            min={VALIDATION.focalLength.min}
-            max={VALIDATION.focalLength.max}
-            suffix="mm"
-            isOverridden={isTargetFocalOverridden}
-            formatDisplayValue={formatFocalLengthInput}
-          />
+          <div className="flex items-center">
+            <div className="flex-1">
+              <NumberInput
+                id="target-focal"
+                value={target.focalLength}
+                onChange={handleFocalLengthChange}
+                min={VALIDATION.focalLength.min}
+                max={VALIDATION.focalLength.max}
+                suffix="mm"
+                isOverridden={isTargetFocalOverridden}
+                formatDisplayValue={formatFocalLengthInput}
+              />
+            </div>
+            <ResetButton
+              onClick={() => setFocalLengthOverride(null)}
+              visible={isTargetFocalOverridden}
+              ariaLabel="Reset focal length to calculated value"
+            />
+          </div>
         </div>
 
         {/* Aperture input - shows calculated value, can be overridden */}
@@ -92,16 +141,25 @@ export function TargetPanel() {
           >
             Aperture
           </label>
-          <NumberInput
-            id="target-aperture"
-            value={target.aperture}
-            onChange={handleApertureChange}
-            min={VALIDATION.aperture.min}
-            max={VALIDATION.aperture.max}
-            prefix="f/"
-            isOverridden={isTargetApertureOverridden}
-            formatDisplayValue={formatApertureInputCalculated}
-          />
+          <div className="flex items-center">
+            <div className="flex-1">
+              <NumberInput
+                id="target-aperture"
+                value={target.aperture}
+                onChange={handleApertureChange}
+                min={VALIDATION.aperture.min}
+                max={VALIDATION.aperture.max}
+                prefix="f/"
+                isOverridden={isTargetApertureOverridden}
+                formatDisplayValue={formatApertureInputCalculated}
+              />
+            </div>
+            <ResetButton
+              onClick={() => setApertureOverride(null)}
+              visible={isTargetApertureOverridden}
+              ariaLabel="Reset aperture to calculated value"
+            />
+          </div>
         </div>
 
         {/* Subject distance display (calculated, not editable) */}
