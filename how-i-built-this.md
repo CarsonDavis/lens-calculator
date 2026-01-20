@@ -196,6 +196,12 @@ Reviewed mobile design guidelines and updated design-system.md with rem-based si
 
 6. **URL persistence** — Implemented shareable URLs with query params for all state (formats, lens settings, options). Added localStorage session persistence as fallback. Added a Share button with icon in the header that copies the URL to clipboard. Also moved crop factor display from header into the Target panel results.
 
+7. **UI bug fixes** — Several refinements based on testing:
+   - Override visual indication wasn't clear enough — added accent blue border to overridden inputs
+   - Added reset buttons (refresh icon) next to target focal length and aperture when overridden
+   - Info panel text was getting cut off — increased max-height
+   - Opening one info section now closes any other open section (accordion behavior)
+
 **Chat log:** [src/chat_messages.md](src/chat_messages.md)
 
 **Files created:**

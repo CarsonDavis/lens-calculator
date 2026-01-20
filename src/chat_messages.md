@@ -125,3 +125,32 @@
 > - Added Share button in header with icon that copies URL to clipboard
 > - Moved crop factor from header to Target panel results section
 > - Created feature/url-persistence branch]
+
+# Fix UI Bugs and Behavior
+
+## Message 28
+
+> reade @README.md and @design_docs/README.md then take a look at @bugs-behavior.md
+
+## Message 29
+
+> create a new branch off of master after pullig from remote and then let's get started. there are plenty more design files to read as you begin your investigatino
+
+## Message 30
+
+> [Plan approved - Created fix/ui-override-indication-and-info-panel branch]
+
+## Message 31
+
+> opening a second informatino pane should close any other open panes
+
+## Message 32
+
+> [Implemented all fixes:
+>
+> 1. Override visual indication - added accent blue border (border-accent) to NumberInput when value is overridden, making the distinction much clearer than font-weight alone
+> 2. Reset buttons - added refresh icon buttons next to target focal length and aperture inputs that appear when overridden, clicking resets to calculated value
+> 3. Info pane text cutoff - increased CollapsiblePanel max-height from max-h-96 (384px) to max-h-[2000px] to show full content
+> 4. Accordion behavior - lifted InfoSection state to InfoPanel parent so opening one section closes any other open section
+>
+> Files modified: NumberInput.tsx, TargetPanel.tsx, CollapsiblePanel.tsx, InfoPanel.tsx]
