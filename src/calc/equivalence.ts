@@ -17,7 +17,9 @@ export function calculateCropFactorBetweenFormats(
     case 'height':
       return target.height / source.height;
     case 'area':
-      return Math.sqrt((target.width * target.height) / (source.width * source.height));
+      return Math.sqrt(
+        (target.width * target.height) / (source.width * source.height)
+      );
   }
 }
 

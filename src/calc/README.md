@@ -23,28 +23,28 @@ const formats: Format[] = [
 
 const source: SourceState = {
   formatId: 'full-frame',
-  focalLength: 50,        // mm
-  aperture: 1.4,          // f-number
-  subjectDistance: 2000,  // mm (optional, set to null if not needed)
+  focalLength: 50, // mm
+  aperture: 1.4, // f-number
+  subjectDistance: 2000, // mm (optional, set to null if not needed)
 };
 
 const target: TargetState = {
   formatId: 'apsc',
-  focalLengthOverride: null,  // null = auto-calculate equivalent
-  apertureOverride: null,     // null = auto-calculate equivalent
+  focalLengthOverride: null, // null = auto-calculate equivalent
+  apertureOverride: null, // null = auto-calculate equivalent
 };
 
 const options: Options = {
-  equivalenceMethod: 'diagonal',  // or 'width', 'height', 'area'
-  matchMode: 'blur_disc',         // or 'dof'
+  equivalenceMethod: 'diagonal', // or 'width', 'height', 'area'
+  matchMode: 'blur_disc', // or 'dof'
   displayUnit: 'mm',
 };
 
 const result = calculateEquivalence({ source, target, options, formats });
 
-console.log(result.target.focalLength);  // ~31.25mm (equivalent focal length)
-console.log(result.target.aperture);     // ~0.875 (equivalent aperture)
-console.log(result.cropFactor);          // ~0.625 (APS-C relative to FF)
+console.log(result.target.focalLength); // ~31.25mm (equivalent focal length)
+console.log(result.target.aperture); // ~0.875 (equivalent aperture)
+console.log(result.cropFactor); // ~0.625 (APS-C relative to FF)
 ```
 
 ### Individual Calculations
@@ -62,9 +62,9 @@ import {
 } from './calc';
 
 // Format utilities
-const diagonal = calculateDiagonal(36, 24);        // 43.27mm
-const coc = calculateCoC(diagonal);                // 0.0288mm
-const cropFactor = calculateCropFactor(diagonal);  // 1.0
+const diagonal = calculateDiagonal(36, 24); // 43.27mm
+const coc = calculateCoC(diagonal); // 0.0288mm
+const cropFactor = calculateCropFactor(diagonal); // 1.0
 
 // Angle of view
 const format = withDerived({ id: 'ff', name: 'FF', width: 36, height: 24 });
@@ -76,8 +76,8 @@ const dof = calculateDOF(50, 1.4, coc, 2000);
 // { nearLimit, farLimit, total, hyperfocal }
 
 // Blur disc
-const blur = calculateBlurDisc(50, 1.4, 2000);     // 0.893mm
-const blurPct = calculateBlurPercent(blur, 36);    // 2.48%
+const blur = calculateBlurDisc(50, 1.4, 2000); // 0.893mm
+const blurPct = calculateBlurPercent(blur, 36); // 2.48%
 ```
 
 ## API Reference
@@ -89,6 +89,7 @@ const blurPct = calculateBlurPercent(blur, 36);    // 2.48%
 Calculates full equivalence between source and target formats.
 
 **Input:**
+
 - `source: SourceState` — Source format, focal length, aperture, optional subject distance
 - `target: TargetState` — Target format with optional overrides
 - `options: Options` — Equivalence method and match mode
@@ -100,42 +101,42 @@ Calculates full equivalence between source and target formats.
 
 The module handles six situations based on what's overridden:
 
-| Situation | Override | Calculates |
-|-----------|----------|------------|
-| 1 | None | Equivalent focal length and aperture |
-| 2 | None + subject distance | Adds DOF and blur calculations |
-| 3 | Focal length (blur mode) | Aperture to match blur % |
-| 4 | Focal length (DOF mode) | Aperture to match DOF |
-| 5 | Aperture (blur mode) | Focal length to match blur % |
-| 6 | Aperture (DOF mode) | Focal length for best DOF match |
+| Situation | Override                 | Calculates                           |
+| --------- | ------------------------ | ------------------------------------ |
+| 1         | None                     | Equivalent focal length and aperture |
+| 2         | None + subject distance  | Adds DOF and blur calculations       |
+| 3         | Focal length (blur mode) | Aperture to match blur %             |
+| 4         | Focal length (DOF mode)  | Aperture to match DOF                |
+| 5         | Aperture (blur mode)     | Focal length to match blur %         |
+| 6         | Aperture (DOF mode)      | Focal length for best DOF match      |
 
 ### Format Utilities
 
-| Function | Description |
-|----------|-------------|
-| `calculateDiagonal(w, h)` | Sensor diagonal in mm |
-| `calculateCoC(diagonal)` | Circle of confusion (d/1500) |
+| Function                        | Description                  |
+| ------------------------------- | ---------------------------- |
+| `calculateDiagonal(w, h)`       | Sensor diagonal in mm        |
+| `calculateCoC(diagonal)`        | Circle of confusion (d/1500) |
 | `calculateCropFactor(diagonal)` | Crop factor relative to 35mm |
-| `calculateArea(w, h)` | Sensor area in mm² |
-| `withDerived(format)` | Add derived values to format |
+| `calculateArea(w, h)`           | Sensor area in mm²           |
+| `withDerived(format)`           | Add derived values to format |
 
 ### Optical Calculations
 
-| Function | Description |
-|----------|-------------|
-| `calculateAOV(format, focalLength)` | Angle of view (h, v, diagonal) |
-| `calculateEntrancePupil(f, N)` | Entrance pupil diameter (f/N) |
-| `calculateHyperfocal(f, N, coc)` | Hyperfocal distance |
-| `calculateDOF(f, N, coc, s)` | Full DOF result |
-| `calculateBlurDisc(f, N, s)` | Blur disc for background at infinity |
-| `calculateBlurPercent(blur, width)` | Blur as % of frame |
+| Function                            | Description                          |
+| ----------------------------------- | ------------------------------------ |
+| `calculateAOV(format, focalLength)` | Angle of view (h, v, diagonal)       |
+| `calculateEntrancePupil(f, N)`      | Entrance pupil diameter (f/N)        |
+| `calculateHyperfocal(f, N, coc)`    | Hyperfocal distance                  |
+| `calculateDOF(f, N, coc, s)`        | Full DOF result                      |
+| `calculateBlurDisc(f, N, s)`        | Blur disc for background at infinity |
+| `calculateBlurPercent(blur, width)` | Blur as % of frame                   |
 
 ### Unit Conversions
 
-| Function | Description |
-|----------|-------------|
-| `mmToInches(mm)` | Convert mm to inches |
-| `inchesToMm(inches)` | Convert inches to mm |
+| Function                | Description                |
+| ----------------------- | -------------------------- |
+| `mmToInches(mm)`        | Convert mm to inches       |
+| `inchesToMm(inches)`    | Convert inches to mm       |
 | `degreesToRadians(deg)` | Convert degrees to radians |
 | `radiansToDegrees(rad)` | Convert radians to degrees |
 

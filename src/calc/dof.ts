@@ -15,7 +15,10 @@ export function calculateNearLimit(
   focalLength: number
 ): number {
   // D_near = (H × s) / (H + s - f)
-  return (hyperfocal * subjectDistance) / (hyperfocal + subjectDistance - focalLength);
+  return (
+    (hyperfocal * subjectDistance) /
+    (hyperfocal + subjectDistance - focalLength)
+  );
 }
 
 export function calculateFarLimit(
@@ -49,7 +52,11 @@ export function calculateDOF(
   subjectDistance: number
 ): DOFResult {
   const hyperfocal = calculateHyperfocal(focalLength, aperture, coc);
-  const nearLimit = calculateNearLimit(hyperfocal, subjectDistance, focalLength);
+  const nearLimit = calculateNearLimit(
+    hyperfocal,
+    subjectDistance,
+    focalLength
+  );
   const farLimit = calculateFarLimit(hyperfocal, subjectDistance, focalLength);
   const total = calculateTotalDOF(nearLimit, farLimit);
 

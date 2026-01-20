@@ -6,7 +6,9 @@ export function calculateBlurDisc(
   aperture: number,
   subjectDistance: number
 ): number {
-  return (focalLength * focalLength) / (aperture * (subjectDistance - focalLength));
+  return (
+    (focalLength * focalLength) / (aperture * (subjectDistance - focalLength))
+  );
 }
 
 // Blur disc for background at a specific distance

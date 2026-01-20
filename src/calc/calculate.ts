@@ -39,7 +39,12 @@ export function calculateSideResult(
 
   if (subjectDistance !== undefined) {
     result.subjectDistance = subjectDistance;
-    result.dof = calculateDOF(focalLength, aperture, format.coc, subjectDistance);
+    result.dof = calculateDOF(
+      focalLength,
+      aperture,
+      format.coc,
+      subjectDistance
+    );
     result.blurDisc = calculateBlurDisc(focalLength, aperture, subjectDistance);
     result.blurPercent = calculateBlurPercent(result.blurDisc, format.width);
   }
@@ -74,15 +79,19 @@ export function calculateEquivalence(
   );
 
   // Determine target focal length and aperture based on overrides
-  const { targetFocalLength, targetAperture, isFocalOverridden, isApertureOverridden } =
-    resolveTargetValues(
-      source,
-      target,
-      sourceWithDerived,
-      targetWithDerived,
-      cropFactor,
-      options
-    );
+  const {
+    targetFocalLength,
+    targetAperture,
+    isFocalOverridden,
+    isApertureOverridden,
+  } = resolveTargetValues(
+    source,
+    target,
+    sourceWithDerived,
+    targetWithDerived,
+    cropFactor,
+    options
+  );
 
   // Calculate source side result
   const sourceResult = calculateSideResult(
@@ -148,7 +157,10 @@ function resolveTargetValues(
   // Situation 1: Default equivalence (no overrides)
   if (!isFocalOverridden && !isApertureOverridden) {
     return {
-      targetFocalLength: calculateEquivalentFocalLength(source.focalLength, cropFactor),
+      targetFocalLength: calculateEquivalentFocalLength(
+        source.focalLength,
+        cropFactor
+      ),
       targetAperture: calculateEquivalentAperture(source.aperture, cropFactor),
       isFocalOverridden: false,
       isApertureOverridden: false,
