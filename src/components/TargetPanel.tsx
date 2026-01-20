@@ -18,6 +18,7 @@ import {
   formatOrPlaceholder,
   formatFocalLengthInput,
   formatApertureInputCalculated,
+  formatCropFactor,
 } from '@/utils/format';
 
 export function TargetPanel() {
@@ -118,6 +119,10 @@ export function TargetPanel() {
 
       {/* Results */}
       <div className="mt-4 pt-4 border-t border-border space-y-2">
+        <ResultDisplay
+          label="Crop factor"
+          value={formatCropFactor(result.cropFactor)}
+        />
         <ResultDisplay
           label="FOV"
           value={`${formatFOV(target.aov.diagonal)} diagonal`}

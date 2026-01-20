@@ -87,3 +87,41 @@
 ## Message 20
 
 > [Updated lefthook.yml - changed eslint to use --fix flag, prettier to use --write instead of --check, added stage_fixed: true to both so fixed files are re-staged automatically. Note: some ESLint errors like unescaped entities still require manual fixes]
+
+# Add URL Persistence
+
+## Message 21
+
+> read @README.md and @design_docs/README.md your task will be to implement url persistence, so read anything that is necessarry in the documentation on that topic
+
+## Message 22
+
+> go for it
+
+## Message 23
+
+> when you are finished, make a feature branch for this
+
+## Message 24
+
+> can we add a share button in the top right?
+
+## Message 25
+
+> crop factor should go in the target as one of the calculated values, not at the top
+
+## Message 26
+
+> is there an icon we can use with the word share?
+
+## Message 27
+
+> [Implemented URL persistence with share button:
+>
+> - Created src/utils/url.ts for URL serialization/deserialization (query params: sf/tf for formats, sl/sa/sd for source lens, tl/ta for target overrides, em/mm for options, sw/sh/tw/th for custom format dimensions)
+> - Created src/atoms/url.ts with useUrlSync hook for bidirectional state-URL sync
+> - Added localStorage session persistence (restores last state if no URL params)
+> - Added urlCustomFormatsAtom for temporary formats from URL parameters
+> - Added Share button in header with icon that copies URL to clipboard
+> - Moved crop factor from header to Target panel results section
+> - Created feature/url-persistence branch]
