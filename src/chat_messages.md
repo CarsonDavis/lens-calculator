@@ -69,3 +69,21 @@
 ## Message 16
 
 > [Fixed - changed from two-column grid to centered flex container so both labels are centered together under the visualization]
+
+# Fix Pre-commit Hook Failures
+
+## Message 17
+
+> what's going on here? [lefthook pre-commit errors: Prettier formatting issues in 5 files, ESLint unescaped entities in InfoPanel.tsx, ESLint setState in useEffect in NumberInput.tsx]
+
+## Message 18
+
+> [Fixed - ran prettier to fix formatting, escaped apostrophes and quotes in InfoPanel.tsx with &apos; and &quot;, refactored NumberInput.tsx to remove useEffect with setState by using a single editingValue state that's null when not editing]
+
+## Message 19
+
+> is there a way to make that simply run certain fixes automatically when the commit fails? i know it works that way in python
+
+## Message 20
+
+> [Updated lefthook.yml - changed eslint to use --fix flag, prettier to use --write instead of --check, added stage_fixed: true to both so fixed files are re-staged automatically. Note: some ESLint errors like unescaped entities still require manual fixes]
