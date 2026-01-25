@@ -178,10 +178,7 @@ function resolveTargetValues(
       targetAperture = calculateApertureForMatchingBlur(
         source.focalLength,
         source.aperture,
-        sourceFormat.width,
-        targetFocalLength,
-        targetFormat.width,
-        cropFactor
+        targetFocalLength
       );
     } else {
       // Situation 4: Match DOF
@@ -212,10 +209,7 @@ function resolveTargetValues(
     targetFocalLength = calculateFocalForMatchingBlur(
       source.focalLength,
       source.aperture,
-      sourceFormat.width,
-      targetAperture,
-      targetFormat.width,
-      cropFactor
+      targetAperture
     );
   } else {
     // Situation 6: Match DOF

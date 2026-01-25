@@ -180,16 +180,22 @@ Blur percent: B / width × 100
 
 For **default equivalence** (Situations 1-2, no overrides), subject distance is the **same** on both sides. Equivalent focal lengths produce the same FOV, so the same distance gives the same framing and matching blur percentage.
 
-For **override situations** (Situations 3-6), subject distance is scaled relative to the equivalent focal length to maintain framing when using a non-equivalent focal length:
+For **blur override situations** (Situations 3 & 5), subject distance scales to maintain framing (subject fills same proportion of frame width):
 
 ```
-s_target = s_source × (f_target / f_equivalent)
-         = s_source × (f_target / (f_source × CF))
+s_target = s_source × (f_target / f_source) × (w_source / w_target)
 ```
 
-Where CF is the crop factor (target diagonal / source diagonal).
+This leads to simplified blur matching formulas:
 
-The override formulas account for this scaling.
+```
+Aperture for blur match: N_target = N_source × (f_target / f_source)
+Focal for blur match:    f_target = f_source × (N_target / N_source)
+```
+
+These ensure consistency: when the override value equals the equivalent, the result matches default equivalence.
+
+For **DOF override situations** (Situations 4 & 6), diagonal-based equivalence is used since DOF depends on CoC which scales with diagonal.
 
 ## Testing
 
@@ -199,7 +205,7 @@ npm test           # Watch mode
 npm run typecheck  # Type checking only
 ```
 
-74 unit tests cover all calculations including edge cases (infinity DOF, theoretical apertures).
+76 unit tests cover all calculations including edge cases (infinity DOF, theoretical apertures).
 
 ## File Structure
 
