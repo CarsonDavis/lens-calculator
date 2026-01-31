@@ -154,3 +154,29 @@
 > 4. Accordion behavior - lifted InfoSection state to InfoPanel parent so opening one section closes any other open section
 >
 > Files modified: NumberInput.tsx, TargetPanel.tsx, CollapsiblePanel.tsx, InfoPanel.tsx]
+
+# Add Custom Sensor Formats
+
+## Message 33
+
+> i want you to read the design docs enough to know what's going on in the app
+
+## Message 34
+
+> let's make a new branch off of main and have it be feature/custom-sensors
+
+## Message 35
+
+> let's look at how the current system give a list of specific sensors. then let's think about how we would give the option to type your own sensor (for target or source) and then save it
+
+## Message 36
+
+> that validation is too restrictive, lets just change it to be a positive number. custom in the dropdown is fine. modal works. go ahead and implement and update any design docs that we need to
+
+## Message 37
+
+> [Plan approved]
+
+## Message 38
+
+> the formatting of the drop down has changed. the vertical spacing between lines has increased and the formats are no longer inset from the category labels

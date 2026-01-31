@@ -3,6 +3,11 @@ import { atomWithStorage } from 'jotai/utils';
 import type { Format, FormatPreset, FormatCategory } from '@/calc';
 import formatsData from '@/data/formats.json';
 
+// Helper to generate unique custom format IDs
+function generateCustomFormatId(): string {
+  return `custom-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+}
+
 // Custom formats stored in localStorage
 export const customFormatsAtom = atomWithStorage<Format[]>(
   'lens-calc-custom-formats',
@@ -63,4 +68,43 @@ export const groupedFormatsAtom = atom<GroupedFormats>((get) => {
   }
 
   return grouped;
+});
+
+// CRUD operations for custom formats
+
+export const addCustomFormatAtom = atom(
+  null,
+  (get, set, format: Omit<Format, 'id' | 'isCustom'>) => {
+    const current = get(customFormatsAtom);
+    const newFormat: Format = {
+      ...format,
+      id: generateCustomFormatId(),
+      isCustom: true,
+    };
+    set(customFormatsAtom, [...current, newFormat]);
+    return newFormat.id;
+  }
+);
+
+export const updateCustomFormatAtom = atom(
+  null,
+  (
+    get,
+    set,
+    update: { id: string; name?: string; width?: number; height?: number }
+  ) => {
+    const current = get(customFormatsAtom);
+    set(
+      customFormatsAtom,
+      current.map((f) => (f.id === update.id ? { ...f, ...update } : f))
+    );
+  }
+);
+
+export const deleteCustomFormatAtom = atom(null, (get, set, id: string) => {
+  const current = get(customFormatsAtom);
+  set(
+    customFormatsAtom,
+    current.filter((f) => f.id !== id)
+  );
 });

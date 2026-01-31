@@ -3,11 +3,13 @@
 ## Structure
 
 ### Calculation Engine
+
 - **Separate package** — standalone module, no UI dependencies
 - Fully testable in isolation
 - Supports **metric and imperial** units (mm, inches)
 
 ### Format Data
+
 - Loaded from **separate JSON file**, not hardcoded
 - Custom formats persisted to **localStorage**
 - Users can save/name custom formats (keep it minimal and clean)
@@ -17,20 +19,24 @@
 ## State Management
 
 ### Data Flow
+
 - Recalculate derived values on every render (no memoization needed)
 - Unidirectional: inputs → calculation engine → display
 
 ### Override Tracking
+
 ```
 {
   value: number,
   isOverridden: boolean
 }
 ```
+
 - `isOverridden` drives CSS styling (subtle font change)
 - Clearing the field sets `isOverridden: false`, reverts to calculated
 
 ### Source vs Target Shape
+
 - **Different structures** — source has subject distance, target has override flags
 - Can consolidate later if they converge
 
@@ -38,12 +44,12 @@
 
 ## Persistence
 
-| What | Where |
-|------|-------|
-| Current state | URL (shareable links) |
-| Last session | localStorage |
-| Custom formats | localStorage |
-| User accounts | None |
+| What           | Where                 |
+| -------------- | --------------------- |
+| Current state  | URL (shareable links) |
+| Last session   | localStorage          |
+| Custom formats | localStorage          |
+| User accounts  | None                  |
 
 ### URL State Serialization
 
@@ -79,12 +85,12 @@ Individual query parameters with short keys:
 
 ### Bounds
 
-| Field | Min | Max | Notes |
-|-------|-----|-----|-------|
-| Focal length | 1mm | 2000mm | Covers fisheye to super-tele |
-| Aperture | f/0.7 | f/128 | f/0.7 exists; f/128 for large format |
-| Subject distance | focal length + 1mm | 100km | Must exceed focal length |
-| Format width/height | 1mm | 500mm | Phone sensors to 8×10 |
+| Field               | Min                | Max    | Notes                                |
+| ------------------- | ------------------ | ------ | ------------------------------------ |
+| Focal length        | 1mm                | 2000mm | Covers fisheye to super-tele         |
+| Aperture            | f/0.7              | f/128  | f/0.7 exists; f/128 for large format |
+| Subject distance    | focal length + 1mm | 100km  | Must exceed focal length             |
+| Format width/height | 0.001mm            | none   | Positive numbers only                |
 
 ### Behavior
 
@@ -94,16 +100,17 @@ Individual query parameters with short keys:
 
 ### Edge Case Handling
 
-| Situation | Behavior |
-|-----------|----------|
-| Subject distance ≤ focal length | Clamp to focal_length + 1mm |
-| Calculated aperture < f/0.7 | Show value with "(theoretical)" note |
-| Calculated aperture > f/128 | Show value with "(theoretical)" note |
-| Division by zero | Cannot occur if inputs validated |
+| Situation                       | Behavior                             |
+| ------------------------------- | ------------------------------------ |
+| Subject distance ≤ focal length | Clamp to focal_length + 1mm          |
+| Calculated aperture < f/0.7     | Show value with "(theoretical)" note |
+| Calculated aperture > f/128     | Show value with "(theoretical)" note |
+| Division by zero                | Cannot occur if inputs validated     |
 
 ### Contextual Warnings
 
 Display on results (not blocking):
+
 - Near macro range: "DOF approximations less accurate at close distances"
 - Theoretical aperture: "f/0.5 (theoretical — no such lens exists)"
 
@@ -120,11 +127,11 @@ Display on results (not blocking):
 
 ## Testing
 
-| Type | Coverage |
-|------|----------|
-| Unit tests | Calculation engine |
-| E2E tests | UI flows |
-| Visual regression | Sensor overlay |
+| Type              | Coverage           |
+| ----------------- | ------------------ |
+| Unit tests        | Calculation engine |
+| E2E tests         | UI flows           |
+| Visual regression | Sensor overlay     |
 
 ---
 
@@ -139,6 +146,7 @@ Display on results (not blocking):
 ## Rendering
 
 ### Sensor Overlay
+
 - **SVG** — scalable, styleable, accessible
 - Smaller format nested inside larger
 - Bottom-left justified
@@ -194,19 +202,20 @@ src/
 
 ## Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Build | Vite |
-| Language | TypeScript |
-| UI | React |
-| Styling | Tailwind CSS |
-| State | Jotai |
+| Category             | Technology                     |
+| -------------------- | ------------------------------ |
+| Build                | Vite                           |
+| Language             | TypeScript                     |
+| UI                   | React                          |
+| Styling              | Tailwind CSS                   |
+| State                | Jotai                          |
 | Unit/Component Tests | Vitest + React Testing Library |
-| E2E Tests | Playwright |
-| Linting | ESLint 9 + Prettier |
-| Pre-commit | Lefthook |
+| E2E Tests            | Playwright                     |
+| Linting              | ESLint 9 + Prettier            |
+| Pre-commit           | Lefthook                       |
 
 ### Not Using
+
 - TanStack Query (no server state)
 - React Router (single page)
 
@@ -217,6 +226,7 @@ src/
 See **design-system.md** for complete visual language.
 
 Key points:
+
 - Dark mode only
 - Neutral palette, accent color used sparingly
 - System fonts, 14px base
