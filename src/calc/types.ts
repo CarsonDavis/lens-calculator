@@ -111,7 +111,7 @@ export const VALIDATION = {
   focalLength: { min: 1, max: 2000 }, // mm
   aperture: { min: 0.7, max: 128 }, // f-number
   subjectDistanceMax: 100_000_000, // 100km in mm
-  formatDimension: { min: 1, max: 500 }, // mm
+  formatDimension: { min: 0.001 }, // mm, positive only
 } as const;
 
 // 35mm full frame diagonal for crop factor reference

@@ -204,6 +204,8 @@ Reviewed mobile design guidelines and updated design-system.md with rem-based si
    - Info panel text was getting cut off — increased max-height
    - Opening one info section now closes any other open section (accordion behavior)
 
+8. **Custom sensor formats** — Added ability for users to create, edit, and delete custom sensor formats.
+
 **Chat log:** [src/chat_messages.md](src/chat_messages.md)
 
 **Files created:**
