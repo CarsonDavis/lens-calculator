@@ -119,7 +119,7 @@ Display on results (not blocking):
 ## Platform & Deployment
 
 - **Static site** — no backend required
-- Host on GitHub Pages / Netlify / Vercel
+- Hosted on **AWS Amplify** (see [ci-cd.md](ci-cd.md))
 - **Mobile-first** responsive design
 - No analytics, no PWA
 
