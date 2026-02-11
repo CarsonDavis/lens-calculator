@@ -8,7 +8,7 @@
 
 ### Why Amplify
 
-- Fully controllable via CLI — no web console required for setup or management
+- Fully controllable via IaC (OpenTofu) — no web console required for setup or management
 - Integrates directly with existing Route53 hosted zone (`codebycarson.com`)
 - Automatic SSL via ACM
 - Preview deploys on pull requests
@@ -89,7 +89,20 @@ frontend:
       - node_modules/**/*
 ```
 
-## Setup Commands
+## Infrastructure as Code
+
+All infrastructure is managed via OpenTofu in [`infrastructure/`](../infrastructure/). Three resources are defined in `main.tf`:
+
+- **`aws_amplify_app`** — the Amplify app itself (repo link, build spec, branch creation/deletion settings)
+- **`aws_amplify_branch`** — the `master` branch (production stage, auto-build, PR previews enabled)
+- **`aws_amplify_domain_association`** — custom domain `lens-calc.codebycarson.com`
+
+To make infrastructure changes: edit the `.tf` files, then `tofu plan` and `tofu apply`.
+
+<details>
+<summary>Historical: original CLI setup</summary>
+
+The app was originally created via CLI commands before being migrated to IaC:
 
 ```bash
 # Create the Amplify app (one-time)
@@ -113,6 +126,8 @@ aws amplify create-domain-association \
   --profile personal
 ```
 
+</details>
+
 ## Ongoing Management
 
 Essentially none for a static site:
@@ -122,7 +137,9 @@ Essentially none for a static site:
 - Merge PR → preview cleaned up (both `pr-{N}` and branch auto-deletion)
 - SSL renewal → automatic
 
-Rare maintenance:
+Infrastructure changes (settings, domains, branch config) go through OpenTofu — edit the `.tf` files in `infrastructure/`, then `tofu plan` / `tofu apply`.
+
+Rare operational commands (these are runtime queries, not infrastructure setup):
 
 - Check build logs if deploys fail: `aws amplify list-jobs --app-id d3hc3pd3kpeza5 --branch-name master --profile personal`
 - List branches to check for stale deploys: `aws amplify list-branches --app-id d3hc3pd3kpeza5 --profile personal`

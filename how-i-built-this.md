@@ -229,6 +229,8 @@ Reviewed mobile design guidelines and updated design-system.md with rem-based si
 
 4. **Configuration** — Set up Amplify app, GitHub Actions workflows for CI (tests on PR) and CD (deploy master branch).
 
+5. **Infrastructure as Code migration** — Later migrated the Amplify infrastructure from ad-hoc CLI commands to OpenTofu (`.tf` files in `infrastructure/`), with an S3 backend for state. The three core resources (app, branch, domain association) are now code-managed.
+
 **Chat log:** [.github/chat_messages.md](.github/chat_messages.md)
 
 **Files created:**
