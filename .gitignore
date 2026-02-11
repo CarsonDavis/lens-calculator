@@ -34,3 +34,8 @@ reference-repos/
 # Logs
 *.log
 npm-debug.log*
+
+# Terraform
+infrastructure/.terraform/
+infrastructure/*.tfstate*
+infrastructure/*.auto.tfvars
